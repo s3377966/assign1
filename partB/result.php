@@ -28,14 +28,15 @@
 			 echo ' '.$variety[0];
 		}
 
-		$costQuery = "SELECT cost
-					  FROM inventory
-					  WHERE wine_id = ".$row[0];
+		// Getting cost and current stock for current rows wine
+		$inventoryQuery = "SELECT cost, on_hand
+					  	   FROM inventory
+					  	   WHERE wine_id = ".$row[0];
 
-		$costResult = mysql_query($costQuery);
-		$cost = mysql_fetch_row($costResult);
+		$inventoryResult = mysql_query($inventoryQuery);
+		$inventory = mysql_fetch_row($inventoryResult);
 
-		echo ' '.$cost[0];
+		echo ' '.$inventory[0].' '.$inventory[1];
 
 		echo '</p>';
 	}
