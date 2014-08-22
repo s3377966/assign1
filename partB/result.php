@@ -38,6 +38,16 @@
 
 		echo ' '.$inventory[0].' '.$inventory[1];
 
+		// Getting stock sold for current rows wine
+		$stockSoldQuery = "SELECT SUM(qty)
+						   FROM items
+						   WHERE wine_id = ".$row[0];
+
+		$stockSoldResult = mysql_query($stockSoldQuery);
+		$stockSold = mysql_fetch_row($stockSoldResult);
+
+		echo ' '.$stockSold[0];
+
 		echo '</p>';
 	}
 ?>
