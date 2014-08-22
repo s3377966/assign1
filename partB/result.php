@@ -1,13 +1,20 @@
 <?php
 	include 'connect.php';
 
+	$region_id = $_GET["region"];
+
+	// Checking for non-numeric input by user
+	if (!is_numeric($region_id))
+	{
+		echo '<p> Invalid Region ID </p>';
+		exit();
+	}
+
 	// Getting the id, name, year, winery name and region name for each wine
 	$winesQuery = "SELECT wine_id, wine_name, year, winery_name, region_name 
 				   FROM wine 
 				   LEFT OUTER JOIN winery ON winery.winery_id = wine.winery_id 
 				   LEFT OUTER JOIN region ON winery.region_id = region.region_id";
-				   
-	$region_id = $_GET["region"];
 
 	// Filtering by users selected reigion, 1 is ALL regions so no filtering is
 	// to be done if they picked all on the search page
@@ -19,6 +26,13 @@
 	$winesQuery .= " GROUP BY wine_id";
 
 	$winesResult = mysql_query($winesQuery);
+
+	// Checking for no results
+	if (mysql_num_rows($winesResult) == 0)
+	{
+		echo '<p> No results found </p>';
+		exit();
+	}
 ?>
 
 <table border="1">
