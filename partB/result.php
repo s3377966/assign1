@@ -30,7 +30,7 @@
 	// Checking for no results
 	if (mysql_num_rows($winesResult) == 0)
 	{
-		echo '<p> No results found </p>';
+		echo '<p> No records match your search criteria </p>';
 		exit();
 	}
 ?>
