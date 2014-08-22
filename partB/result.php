@@ -12,6 +12,22 @@
 
 	while ($row = mysql_fetch_row($winesResult))
 	{
-		echo '<p>'.$row[0].' '.$row[1].' '.$row[2].' '.$row[3].' '.$row[4].'</p>';
+		echo '<p>'.$row[0].' '.$row[1].' '.$row[2].' '.$row[3].' '.$row[4];
+
+		// Getting varieties for current rows wine
+		$varietyQuery = "SELECT variety 
+						 FROM grape_variety
+						 LEFT OUTER JOIN wine_variety ON wine_variety.variety_id = grape_variety.variety_id
+						 WHERE wine_variety.wine_id = ".$row[0]."
+						 GROUP BY variety";
+		
+		$varietyResult = mysql_query($varietyQuery);
+		
+		while ($variety = mysql_fetch_row($varietyResult))
+		{
+			 echo ' '.$variety[0];
+		}
+
+		echo '</p>';
 	}
 ?>
