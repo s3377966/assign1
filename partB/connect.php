@@ -9,7 +9,7 @@
 
 	if(!mysql_select_db(DB_NAME, $dbconn))
 	{
-		echo 'Could not user database ' . DB_NAME . '\n';
+		echo 'Could not connect to database ' . DB_NAME . '\n';
 		echo mysql_error() . '\n';
 		exit;
 	}
