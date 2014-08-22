@@ -5,8 +5,18 @@
 	$winesQuery = "SELECT wine_id, wine_name, year, winery_name, region_name 
 				   FROM wine 
 				   LEFT OUTER JOIN winery ON winery.winery_id = wine.winery_id 
-				   LEFT OUTER JOIN region ON winery.region_id = region.region_id 
-				   GROUP BY wine_id";
+				   LEFT OUTER JOIN region ON winery.region_id = region.region_id";
+				   
+	$region_id = $_GET["region"];
+
+	// Filtering by users selected reigion, 1 is ALL regions so no filtering is
+	// to be done if they picked all on the search page
+	if ($region_id != 1)
+	{
+		$winesQuery .= " WHERE winery.region_id = " . $region_id;
+	}
+
+	$winesQuery .= " GROUP BY wine_id";
 
 	$winesResult = mysql_query($winesQuery);
 
