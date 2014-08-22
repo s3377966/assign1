@@ -10,15 +10,15 @@
 
 	$winesResult = mysql_query($winesQuery);
 
-	while ($row = mysql_fetch_row($winesResult))
+	while ($wine = mysql_fetch_row($winesResult))
 	{
-		echo '<p>'.$row[0].' '.$row[1].' '.$row[2].' '.$row[3].' '.$row[4].' '.$row[5];
+		echo '<p>'.$wine[0].' '.$wine[1].' '.$wine[2].' '.$wine[3].' '.$wine[4].' '.$row[5];
 
 		// Getting varieties for current rows wine
 		$varietyQuery = "SELECT variety 
 						 FROM grape_variety
 						 LEFT OUTER JOIN wine_variety ON wine_variety.variety_id = grape_variety.variety_id
-						 WHERE wine_variety.wine_id = ".$row[0]."
+						 WHERE wine_variety.wine_id = ".$wine[0]."
 						 GROUP BY variety";
 		
 		$varietyResult = mysql_query($varietyQuery);
@@ -31,22 +31,22 @@
 		// Getting cost and current stock for current rows wine
 		$inventoryQuery = "SELECT cost, on_hand
 					  	   FROM inventory
-					  	   WHERE wine_id = ".$row[0];
+					  	   WHERE wine_id = ".$wine[0];
 
 		$inventoryResult = mysql_query($inventoryQuery);
 		$inventory = mysql_fetch_row($inventoryResult);
 
 		echo ' '.$inventory[0].' '.$inventory[1];
 
-		// Getting stock sold for current rows wine
-		$stockSoldQuery = "SELECT SUM(qty)
-						   FROM items
-						   WHERE wine_id = ".$row[0];
+		// Getting stock sold and revenue for current rows wine
+		$itemQuery = "SELECT SUM(qty), SUM(price)
+					  FROM items
+					  WHERE wine_id = ".$wine[0];
 
-		$stockSoldResult = mysql_query($stockSoldQuery);
-		$stockSold = mysql_fetch_row($stockSoldResult);
+		$itemResult = mysql_query($itemQuery);
+		$item = mysql_fetch_row($itemResult);
 
-		echo ' '.$stockSold[0];
+		echo ' '.$item[0].' '.$item[1];
 
 		echo '</p>';
 	}
