@@ -12,7 +12,7 @@
 
 	while ($row = mysql_fetch_row($winesResult))
 	{
-		echo '<p>'.$row[0].' '.$row[1].' '.$row[2].' '.$row[3].' '.$row[4];
+		echo '<p>'.$row[0].' '.$row[1].' '.$row[2].' '.$row[3].' '.$row[4].' '.$row[5];
 
 		// Getting varieties for current rows wine
 		$varietyQuery = "SELECT variety 
@@ -27,6 +27,15 @@
 		{
 			 echo ' '.$variety[0];
 		}
+
+		$costQuery = "SELECT cost
+					  FROM inventory
+					  WHERE wine_id = ".$row[0];
+
+		$costResult = mysql_query($costQuery);
+		$cost = mysql_fetch_row($costResult);
+
+		echo ' '.$cost[0];
 
 		echo '</p>';
 	}
