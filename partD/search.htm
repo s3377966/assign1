@@ -1,0 +1,16 @@
+<html>
+	<head>
+		<title>Assignment 1 - S3377966</title>
+	</head>
+
+	<body>
+		<form action="result.php" method="GET">
+			<select name="region" onchange="this.form.submit();">
+				<option selected disabled hidden value=''>Select A Region</option>
+				<!-- $BeginBlock region -->
+				<option value="${regionId}">${regionName}</option>
+				<!-- $EndBlock region -->
+			</select>
+		</form>
+	</body>
+</html>
