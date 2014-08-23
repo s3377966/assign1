@@ -17,21 +17,23 @@
 				<td><b>Revenue</b></td>
 			</tr>
 			
-			<--! $BeginBlock wine -->
+			<!-- $BeginBlock wine -->
 			<tr>
 				<td>${wineName}</td>
 				<td>${year}</td>
 				<td>${winery}</td>
 				<td>${region}</td>
-				<--! $BeginBlock varieties -->
-				<td>${variety}<br/></td>
-				<--! $EndBlock varieties -->
+				<td>
+					<!-- $BeginBlock varieties -->
+					${variety}<br/>
+					<!-- $EndBlock varieties -->
+				</td>
 				<td>$${cost}</td>
 				<td>${onhand}</td>
 				<td>${sold}</td>
 				<td>$${revenue}</td>
 			</tr>
-			<--! $EndBlock wine -->
+			<!-- $EndBlock wine -->
 		</table>
 	</body>
 </html>
