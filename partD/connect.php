@@ -1,16 +1,13 @@
 <?php
 	require_once('db.php');
 	
-	if(!$dbconn = mysql_connect(DB_HOST, DB_USER, DB_PW))
+	try
 	{
-		echo 'Could not connect to mysql on ' . DB_HOST . '\n';
-		exit;
+		$dsn = DB_ENGINE . ':host=' . DB_HOST . ';dbname='. DB_NAME;
+		$db = new PDO($dsn, DB_USER, DB_PW);
 	}
-
-	if(!mysql_select_db(DB_NAME, $dbconn))
+	catch(PDOException $e)
 	{
-		echo 'Could not connect to database ' . DB_NAME . '\n';
-		echo mysql_error() . '\n';
-		exit;
+		die($e->getMessage());
 	}
 ?>
