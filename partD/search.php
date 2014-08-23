@@ -11,10 +11,12 @@
 		die ("MiniTemplator failed to read search.htm");
 	}
 
-	$regions = mysql_query("SELECT region_id, region_name FROM region");
+	$regionsQuery = "SELECT region_id, region_name FROM region";
+	$prepRegionsQuery = $db->prepare($regionsQuery);
+	$prepRegionsQuery->execute();
 
 	// Adding each region to a block to be put in dropdownlist
-	while ($row = mysql_fetch_row($regions))
+	while ($row = $prepRegionsQuery->fetch())
 	{
 		$regionId = $row[0];
 		$regionName = $row[1];
