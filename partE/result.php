@@ -45,6 +45,9 @@
 
 	while ($wine = $prepWinesQuery->fetch())
 	{
+		$winesArray = $_SESSION["wines"]
+		array_push($winesArray, $wine[1]);
+
 		$t->setVariable("wineName",$wine[1]);
 		$t->setVariable("year", $wine[2]);
 		$t->setVariable("winery", $wine[3]);
