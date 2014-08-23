@@ -1,4 +1,5 @@
 <?php
+	require_once("MiniTemplator.class.php");
 	include 'connect.php';
 
 	$region_id = $_GET["region"];
@@ -8,6 +9,15 @@
 	{
 		echo '<p> Invalid Region ID </p>';
 		exit();
+	}
+
+	$t = new MiniTemplator;
+	$ok = $t->readTemplateFromFile("result.htm");
+
+	// Checking for successfully loading template
+	if (!$ok)
+	{
+		die("MiniTemplator failed to read result.htm");
 	}
 
 	// Getting the id, name, year, winery name and region name for each wine
@@ -33,29 +43,13 @@
 		echo '<p> No records match your search criteria </p>';
 		exit();
 	}
-?>
 
-<table border="1">
-	<tr>
-		<td><b>Wine</b></td>
-		<td><b>Year</b></td>
-		<td><b>Winery</b></td>
-		<td><b>Region</b></td>
-		<td><b>Varieties</b></td>
-		<td><b>Cost</b></td>
-		<td><b>OnHand</b></td>
-		<td><b>Sold</b></td>
-		<td><b>Revenue</b></td>
-	</tr>
-
-<?php
 	while ($wine = mysql_fetch_row($winesResult))
 	{
-		echo '<tr>';
-		echo '<td>'.$wine[1].'</td>';
-		echo '<td>'.$wine[2].'</td>';
-		echo '<td>'.$wine[3].'</td>';
-		echo '<td>'.$wine[4].'</td>';
+		$t->setVariable("wineName",$wine[1]);
+		$t->setVariable("year", $wine[2]);
+		$t->setVariable("winery", $wine[3]);
+		$t->setVariable("region", $wine[4]);
 
 		// Getting varieties for current rows wine
 		$varietyQuery = "SELECT variety 
@@ -66,14 +60,11 @@
 		
 		$varietyResult = mysql_query($varietyQuery);
 		
-		echo '<td>';
-
 		while ($variety = mysql_fetch_row($varietyResult))
 		{
-			 echo $variety[0].'<br/>';
+			 $t->setVariable("variety", $variety[0]);
+			 $t->addBlock("varieties");
 		}
-
-		echo '</td>';
 
 		// Getting cost and current stock for current rows wine
 		$inventoryQuery = "SELECT cost, on_hand
@@ -83,8 +74,8 @@
 		$inventoryResult = mysql_query($inventoryQuery);
 		$inventory = mysql_fetch_row($inventoryResult);
 
-		echo '<td>$'.$inventory[0].'</td>';
-		echo '<td>'.$inventory[1].'</td>';
+		$t->setVariable("cost", $inventory[0]);
+		$t->setVariable("onhand", $inventory[1]);
 
 		// Getting stock sold and revenue for current rows wine
 		$itemQuery = "SELECT SUM(qty), SUM(price)
@@ -94,10 +85,10 @@
 		$itemResult = mysql_query($itemQuery);
 		$item = mysql_fetch_row($itemResult);
 
-		echo '<td>'.$item[0].'</td>';
-		echo '<td>$'.$item[1].'</td>';
-		echo '</tr>';
+		$t->setVariable("sold", $item[0]);
+		$t->setVariable("revenue", $item[1]);
+		$t->addBlock("wine");
 	}
-?>
 
-</table>
+	$t->generateOutput();
+?>
