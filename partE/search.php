@@ -27,4 +27,10 @@
 	}
 
 	$t->generateOutput();
+
+	// Checking if start session button was pressed
+	if($_POST["start"])
+	{
+		session_start();
+	}
 ?>
