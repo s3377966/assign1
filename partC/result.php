@@ -7,8 +7,7 @@
 	// Checking for non-numeric input by user
 	if (!is_numeric($region_id))
 	{
-		echo '<p> Invalid Region ID </p>';
-		exit();
+		die("Invalid Region ID");
 	}
 
 	$t = new MiniTemplator;
@@ -40,8 +39,7 @@
 	// Checking for no results
 	if (mysql_num_rows($winesResult) == 0)
 	{
-		echo '<p> No records match your search criteria </p>';
-		exit();
+		die("No records match your search criteria");
 	}
 
 	while ($wine = mysql_fetch_row($winesResult))
