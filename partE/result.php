@@ -95,4 +95,10 @@
 	}
 
 	$t->generateOutput();
+
+	if($_POST["stop"])
+	{
+		$_SESSION = array();
+		session_destroy();
+	}
 ?>
