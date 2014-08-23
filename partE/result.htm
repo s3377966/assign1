@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<title>Assignment 1 - S3377966</title>
+	</head>
+
+	<body>
+		<table border="1">
+			<tr>
+				<td><b>Wine</b></td>
+				<td><b>Year</b></td>
+				<td><b>Winery</b></td>
+				<td><b>Region</b></td>
+				<td><b>Varieties</b></td>
+				<td><b>Cost</b></td>
+				<td><b>OnHand</b></td>
+				<td><b>Sold</b></td>
+				<td><b>Revenue</b></td>
+			</tr>
+			
+			<!-- $BeginBlock wine -->
+			<tr>
+				<td>${wineName}</td>
+				<td>${year}</td>
+				<td>${winery}</td>
+				<td>${region}</td>
+				<td>
+					<!-- $BeginBlock varieties -->
+					${variety}<br/>
+					<!-- $EndBlock varieties -->
+				</td>
+				<td>$${cost}</td>
+				<td>${onhand}</td>
+				<td>${sold}</td>
+				<td>$${revenue}</td>
+			</tr>
+			<!-- $EndBlock wine -->
+		</table>
+	</body>
+</html>
