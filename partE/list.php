@@ -1,4 +1,7 @@
 <?php
+	require_once("MiniTemplator.class.php");
+	session_start();
+
 	$t = new MiniTemplator;
 	$ok = $t->readTemplateFromFile("list.htm");
 
@@ -7,13 +10,16 @@
 		die ("MiniTemplator failed to read list.htm");
 	}
 
-	$winesArray = $_SESSION["wines"];
-
-	foreach ($wineArray as $wine)
+	if (isset($_SESSION["wines"]))
 	{
-		$t->setVariable("wineName", $wine);
-		$t->addBlock("wine");
-	}
+		$winesArray = $_SESSION["wines"];
 
-	$t->generateOutput();
+		foreach ($winesArray as $wine)
+		{
+			$t->setVariable("wineName", $wine);
+			$t->addBlock("wine");
+		}
+
+		$t->generateOutput();
+	}
 ?>
