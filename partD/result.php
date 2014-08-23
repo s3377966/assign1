@@ -34,15 +34,16 @@
 
 	$winesQuery .= " GROUP BY wine_id";
 
-	$winesResult = mysql_query($winesQuery);
+	$prepWinesQuery = $db->prepare($winesQuery);
+	$prepWinesQuery->execute();
 
 	// Checking for no results
-	if (mysql_num_rows($winesResult) == 0)
+	if ($prepWinesQuery->rowCount() == 0)
 	{
 		die("No records match your search criteria");
 	}
 
-	while ($wine = mysql_fetch_row($winesResult))
+	while ($wine = $prepWinesQuery->fetch())
 	{
 		$t->setVariable("wineName",$wine[1]);
 		$t->setVariable("year", $wine[2]);
@@ -56,9 +57,10 @@
 						 WHERE wine_variety.wine_id = ".$wine[0]."
 						 GROUP BY variety";
 		
-		$varietyResult = mysql_query($varietyQuery);
+		$prepVarietyQuery = $db->prepare($varietyQuery);
+		$prepVarietyQuery->execute();
 		
-		while ($variety = mysql_fetch_row($varietyResult))
+		while ($variety = $prepVarietyQuery->fetch())
 		{
 			 $t->setVariable("variety", $variety[0]);
 			 $t->addBlock("varieties");
@@ -69,8 +71,10 @@
 					  	   FROM inventory
 					  	   WHERE wine_id = ".$wine[0];
 
-		$inventoryResult = mysql_query($inventoryQuery);
-		$inventory = mysql_fetch_row($inventoryResult);
+		$prepInventoryQuery = $db->prepare($inventoryQuery);
+		$prepInventoryQuery->execute();
+
+		$inventory = $prepInventoryQuery->fetch();
 
 		$t->setVariable("cost", $inventory[0]);
 		$t->setVariable("onhand", $inventory[1]);
@@ -80,8 +84,10 @@
 					  FROM items
 					  WHERE wine_id = ".$wine[0];
 
-		$itemResult = mysql_query($itemQuery);
-		$item = mysql_fetch_row($itemResult);
+		$prepItemQuery = $db->prepare($itemQuery);
+		$prepItemQuery->execute();
+
+		$item = $prepItemQuery->fetch();
 
 		$t->setVariable("sold", $item[0]);
 		$t->setVariable("revenue", $item[1]);
