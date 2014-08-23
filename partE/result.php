@@ -2,6 +2,15 @@
 	require_once("MiniTemplator.class.php");
 	include 'connect.php';
 
+	session_start();
+
+	if($_POST["stop"])
+	{
+		$_SESSION = array();
+		session_destroy();
+		header("Location: search.php");
+	}
+
 	$region_id = $_GET["region"];
 
 	// Checking for non-numeric input by user
@@ -45,8 +54,12 @@
 
 	while ($wine = $prepWinesQuery->fetch())
 	{
-		$winesArray = $_SESSION["wines"]
-		array_push($winesArray, $wine[1]);
+		if(isset($_SESSION["wines"]))
+		{
+			$winesSessionArray = $_SESSION["wines"];
+			array_push($winesSessionArray, $wine[1]);
+			$_SESSION["wines"] = $winesSessionArray;
+		}
 
 		$t->setVariable("wineName",$wine[1]);
 		$t->setVariable("year", $wine[2]);
@@ -99,9 +112,5 @@
 
 	$t->generateOutput();
 
-	if($_POST["stop"])
-	{
-		$_SESSION = array();
-		session_destroy();
-	}
+
 ?>
