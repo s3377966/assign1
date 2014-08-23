@@ -32,5 +32,6 @@
 	if($_POST["start"])
 	{
 		session_start();
+		$_SESSION["wines"] = array();
 	}
 ?>
