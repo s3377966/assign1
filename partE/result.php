@@ -111,6 +111,4 @@
 	}
 
 	$t->generateOutput();
-
-
 ?>
